@@ -1,0 +1,217 @@
+//Wriiting classes in java
+
+public class Car {
+	final private int year;
+	private int miles;
+	
+	public int getYear()
+	{
+		return year;
+	}
+	
+	public int getMiles()
+	{
+		return miles;
+		
+	}
+}
+------------------------------------------------------------
+//Consciesness
+class Car (val year:int, var miles: int) {
+}  
+
+val car = new Car (2010, 0)
+println(car.year)
+println(car.miles) 
+-----------------------------------------------------------
+class Car (val year:int, var miles: int) {
+	def drive (dist: int) = {
+		mile += dist
+	}
+}  
+
+val car = new Car (2010, 0)
+println(car.year)
+println(car.miles) 
+car.drive(10)
+println(car.miles)
+---------------------------------------------------------
+class Car (val year:int, var miles: int) {
+
+	println("creating car")
+	
+	def this(val year: int) = {
+		this(year, 0)
+	}
+	
+	def drive (dist: int) = {
+		mile += dist
+	}
+}  
+
+val car = new Car (2010, 0)
+println(car.year)
+println(car.miles) 
+car.drive(10)
+println(car.miles)
+--------------------------------------------------------
+println(1.tostring())
+
+class Car {
+
+}
+
+//singleton
+//companion object 
+
+object Car {
+	def countOfInstances() = {
+	
+	}
+}
+---------------------------------------------------------
+
+class car {
+
+	def turn(direction : string) = {
+		println("turning" + direction)
+	}
+}
+
+val car = new Car
+car turn "left"
+
+--------------------------------------------------------
+
+def total(lit: List[Int]) = {
+	var sum = 0
+	for(i <- list) {
+		sum += i 
+	}
+	
+	sum
+}
+
+def totalFunctional(list: List[Int]) = {
+	list.foldLeft(0) { (carryOver, e) =>
+		carryOver + e
+	}
+}
+println(total(list(1,2,3,4,5))))
+println(totalFunctional(List(1,2,3,4,5)))
+-----------------------------------------------------------
+
+def totalSelectValues(list: List[Int], 
+	selector : Int => Boolean) = {
+	var sum = 0
+	list.foreach { e => 
+		if (selector(e))sum += e
+	}
+	sum 
+}
+
+println(totalSelectValues(list(1,2,3,4,5,6),
+	{e => true }))
+	
+println(totalSelectValues(list(1,2,3,4,5,6),
+	{e => e % 2 == 0 }))
+	
+println(totalSelectValues(list(1,2,3,4,5,6),
+	{_ > 4}))
+----------------------------------------------------------
+
+//java
+ArrayList<Integer> list = new ArrayList<Integer>;
+list.add(1);
+//list.add(1.0);
+
+ArrayList duh = list;
+duh.add(1.0);
+
+In Java it is statically typed
+Scla is not staticaly typing.
+
+var str = "hello"
+println(str)
+str = "hi"
+println(str)
+str = 1
+println(str)
+//compile time
+
+//TRAITS
+
+trait Friend {
+		val name : String
+		def listen = println("I am " + name + " your friend")
+}
+
+def seekHelp(friends: Friend) = friend.listen
+
+class Human(val name: String) extends Friend
+class Animal(val name: string)
+class Dog(override val name: String) extends Animal(name) with Friend
+class Cat(override val name: String) extends Animal
+
+val peter = new Human("Peter")
+peter.listen
+seekHelp(peter)
+
+val rover = new Human("rover")
+peter.listen
+seekHelp(rover)
+
+val snow = new Cat("Snow") with Friend
+snow.listen
+seekHelp(snow)
+
+----------------------------------------------------------------
+
+var xml = 
+<hello>
+	<hey>
+		Hi
+	</hey>
+</hello>
+println(xml)
+
+----------------------------------------------------------------
+import scala.io._
+import scala.xml._
+
+def getWeatherInfo(Woeid: String) = {
+	var url = "https://weather.com"
+	
+	val response = source.fromURL(url).mkString
+
+	val xmlResponse = XML.loadString(response)
+	
+	println(xmlResponse \\ "location" \\ "@city", xmlresponse \\ "condition" \\ "@temp")
+}
+
+getWeatherInfo("2391271")
+---------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
