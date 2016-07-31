@@ -1,0 +1,38 @@
+val sparkContext = new SparkContext("local[*]", "Much Wow!")
+val streamingContext = new StreamingContext(sparkContext, Seconds(60))
+val sqlContext = new SQLContext(sparkContext)
+import sqlContext._
+
+case class Flight(
+	number: 		int,
+	carrier: 		String,
+	origin: 		String,
+	destination: 	String,
+	.......)
+
+object Flight {
+	def parse(str: String): Option[Flight]=
+	{...}
+}
+
+val server = ...//IP Address or Name
+val port = ... // integer
+val dStream = streamingContext.socketTextStream(server, port)
+
+val flights = for {
+	line <- dStream
+	flight <- Flight.parse(line)
+} yield flight
+
+flights.foreachRDD { (rdd, time) =>
+	rdd registerTempTable("flights")
+	sql(s"""
+		SELECT $time, carrier, origin, destination, count(*)
+		FROM flights
+		GROUP BY carrier, origin, destination
+		ORDER BY c4 DESC
+		LIMIT 20""").foreach(println)
+}
+streamingContext.start()
+streamingContext.awaitingTermination()
+streamingContext.stop()
