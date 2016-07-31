@@ -1,0 +1,23 @@
+import scala.io._
+import scala.xml._
+import scala.actor._
+import Actor._ //built in message queue, runs in your local thread
+def getWeatherInfo(Woeid: String) = {
+	var url = "https://weather.com"
+	val response = source.fromURL(url).mkString
+	val xmlResponse = XML.loadString(response)
+	println(xmlResponse \\ "location" \\ "@city", 
+	xmlResponse \\ "location" \\ "@region",
+	xmlresponse \\ "condition" \\ "@temp")
+}
+val start = System.nanoTime
+val caller = self
+for (id <- 2391271 to 2391279) {
+	actor {getWeatherInfo(id.toString())
+}
+for (id <- 2391271 to 2391279) {
+	receiveWithin(5000)
+	case msg => println(msg)	
+}
+val end = System.nanoTime
+println("Time" + (end - start) /1000000000.0)
