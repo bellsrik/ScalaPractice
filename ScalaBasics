@@ -1,0 +1,92 @@
+//Loan Pattern
+
+import scala.reflect.io.File
+import java.util.Scanner
+def withScanner(f: File, op: Scanner => Unit) = {
+    val scanner = new Scanner(f.bufferedReader)
+    try {
+        op(scanner)
+    } finally {
+        scanner.close()
+    }
+}
+withScanner(File("/proc/self/stat"),
+    scanner => println("pid is " + scanner.next()))
+
+//Call by Name
+
+val logEnable = false
+def log(msg: => String) =
+    if (logEnable) println(msg)
+val MSG = "programing is running"
+log(MSG + 1 / 0)
+
+//Define Class
+
+class Person(val firstName: String, val lastName: String) {
+    private var _age = 0
+    def age = _age
+    def age_=(newAge: Int) = _age = newAge
+    def fullName() = firstName + " " + lastName
+    override def toString() = fullName()
+}
+val obama: Person = new Person("Barack", "Obama")
+println("Person: " + obama)
+println("firstName: " + obama.firstName)
+println("lastName: " + obama.lastName)
+obama.age=51
+println("age: " + obama.age)
+
+//Duck Typing
+def withClose(closeAble: { def close(): Unit }, 
+    op: { def close(): Unit } => Unit) {
+    try {
+        op(closeAble)
+    } finally {
+        closeAble.close()
+    }
+}
+class Connection {
+    def close() = println("close Connection")
+}
+val conn: Connection = new Connection()
+withClose(conn, conn =>
+println("do something with Connection"))
+    
+//Currying
+def withClose(closeAble: { def close(): Unit })
+    (op: { def close(): Unit } => Unit) {
+    try {
+        op(closeAble)
+    } finally {
+        closeAble.close()
+    }
+}
+class Connection {
+    def close() = println("close Connection")
+}
+val conn: Connection = new Connection()
+withClose(conn){conn =>
+    println("do something with Connection")}
+
+//Generic
+def withClose[A <: { def close(): Unit }, B](closeAble: A)
+  (f: A => B): B =
+  try {
+    f(closeAble)
+  } finally {
+    closeAble.close()
+  }
+class Connection {
+  def close() = println("close Connection")
+}
+val conn: Connection = new Connection()
+val msg = withClose(conn) { conn =>
+  {
+    println("do something with Connection")
+    123456
+  }
+}
+println(msg)
+
+
