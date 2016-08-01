@@ -1,0 +1,22 @@
+//Functions and passing functions as arguements in Scala
+// Scala program for (a+b)^2
+def aSquare(a: Int) = a * a
+def bSquare(b: Int) = b * b
+def aplusbWholeSquare(x: Int => Int, y: Int => Int, arg1: Int, arg2: Int) = {
+	x(arg1) + y(arg2) + (2 * arg1 * arg2)
+}
+println("aSquare(3): " + aSquare(3))
+println("bSquare(5): " + bSquare(5))
+println("aplusbWholeSquare: " + aplusbWholeSquare(aSquare, bSquare,3,5))
+
+//Scala program for (a+b)^3
+val aSquare = (a: Int) => a * a
+val bSquare = (b: Int) => b * b
+def aCube(a: Int) = a * a * a
+def bCube(b: Int) = b * b * b
+def aplusbWholeCube(x: Int => Int, y: Int => Int, l: Int => Int, r: Int => Int, arg1: Int, arg2: Int) = {
+	x(arg1) + (3 * l(arg1) *  arg2) + (3 * arg1 * r(arg2)) + y(arg2)
+}
+println("aCube(1): " + aCube(1))
+println("bCube(2): " + bCube(2))
+println("aplusbWholeCube: " + aplusbWholeCube(aCube, bCube, aSquare, bSquare, 1,2))
